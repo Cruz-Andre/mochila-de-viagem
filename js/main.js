@@ -17,20 +17,26 @@ form.addEventListener('submit', (evento) => {
   const nomeDigitado = evento.target.elements['nome']
   const quantidadeDigitado = evento.target.elements['quantidade']
 
+  const jaExiste = itens.find(item => item.nome === nome.value)
   
   //para armazenar mais de uma informação no localstorage crie um array (const itens = []), monte um objeto (const itemAtual = {}), adicione cada objeto no array itens.push(itemAtual)
   const itemAtual = {
     'nome': nomeDigitado.value,
     'quantidade': quantidadeDigitado.value
   }
+
+  if(jaExiste) {
+    itemAtual.id = jaExiste.id
+    atualizaItem(itemAtual)
+    itens[jaExiste.id] = itemAtual
+  } else {
+    itemAtual.id = itens.length
+    criaItemNalista(itemAtual)
+    itens.push(itemAtual)
+  }
   
-  criaItemNalista(itemAtual)
-
-  itens.push(itemAtual)
-
   //O JSON.stringify para colocar tudo como string, localstorage só aceita strings
   localStorage.setItem('itens', JSON.stringify(itens))
-
 
   nomeDigitado.value = ''
   quantidadeDigitado.value = ''
@@ -45,6 +51,7 @@ function criaItemNalista(item) {
 
   const numeroItem = document.createElement('strong')
   numeroItem.innerHTML = item.quantidade
+  numeroItem.dataset.id = item.id
 
   novoItem.appendChild(numeroItem)
   novoItem.innerHTML += item.nome //novoItem.innerHTML = novoItem.innerHTML + nome
@@ -53,5 +60,6 @@ function criaItemNalista(item) {
   
 }
 
-
-console.log(form)
+function atualizaItem(item) {
+  document.querySelector("[data-id='"+item.id+"']").innerHTML = item.quantidade
+}
