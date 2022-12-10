@@ -28,9 +28,9 @@ form.addEventListener('submit', (evento) => {
   if(jaExiste) {
     itemAtual.id = jaExiste.id
     atualizaItem(itemAtual)
-    itens[jaExiste.id] = itemAtual
+    itens[itens.findIndex(item =>  item.id === jaExiste.id)] = itemAtual
   } else {
-    itemAtual.id = itens.length
+    itemAtual.id = itens[itens.length - 1] ? (itens[itens.length - 1]).id + 1 : 0
     criaItemNalista(itemAtual)
     itens.push(itemAtual)
   }
@@ -40,7 +40,6 @@ form.addEventListener('submit', (evento) => {
 
   nomeDigitado.value = ''
   quantidadeDigitado.value = ''
-
 })
 
 function criaItemNalista(item) {
@@ -56,10 +55,32 @@ function criaItemNalista(item) {
   novoItem.appendChild(numeroItem)
   novoItem.innerHTML += item.nome //novoItem.innerHTML = novoItem.innerHTML + nome
 
+  novoItem.appendChild(botaoDeleta(item.id))
+
   lista.appendChild(novoItem)
-  
 }
 
 function atualizaItem(item) {
   document.querySelector("[data-id='"+item.id+"']").innerHTML = item.quantidade
+}
+
+function botaoDeleta(id) {
+  const elementoBotao = document.createElement('button')
+  elementoBotao.innerText = 'X'
+  
+  elementoBotao.addEventListener("click", function() {
+    deletaItem(this.parentNode, id)
+  })
+
+  return elementoBotao
+}
+
+function deletaItem(tag, id) {
+  tag.remove()
+
+  //remover o item do array
+  itens.splice(itens.findIndex(item => item.id === id), 1)
+
+  //atualizar o localstorage
+  localStorage.setItem('itens', JSON.stringify(itens))
 }
