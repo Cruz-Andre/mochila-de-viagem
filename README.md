@@ -1,5 +1,5 @@
 # Site Mochila de Viagem
-## Curso Alura JavaScript na Web: armazenando dados no navegador
+## Curso Alura: JavaScript na Web - armazenando dados no navegador
 
 - JavaScript
 - Manipulação do DOM
