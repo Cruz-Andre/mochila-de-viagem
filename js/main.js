@@ -2,12 +2,20 @@ const form = document.getElementById('novoItem')
 
 const lista = document.getElementById('lista')
 
+const itens = []
+
 
 form.addEventListener('submit', (evento) => {
   evento.preventDefault()
 
-  criaItemNalista(evento.target.elements['nome'].value, evento.target.elements['quantidade'].value)
-  
+  const nomeDigitado = evento.target.elements['nome']
+  const quantidadeDigitado = evento.target.elements['quantidade']
+
+  criaItemNalista(nomeDigitado.value, quantidadeDigitado.value)
+
+  nomeDigitado.value = ''
+  quantidadeDigitado.value = ''
+
 })
 
 function criaItemNalista(nome, quantidade) {
@@ -24,6 +32,15 @@ function criaItemNalista(nome, quantidade) {
 
   lista.appendChild(novoItem)
 
+  //para armazenar mais de uma informação no localstorage crie um array (const itens = []), monte um objeto (const itemAtual = {}), adicione cada objeto no array itens.push(itemAtual)
+  const itemAtual = {
+    'nome': nome,
+    'quantidade': quantidade
+  }
+
+  itens.push(itemAtual)
+
+  localStorage.setItem('item', JSON.stringify(itens))
 }
 
 
