@@ -4,4 +4,4 @@
 - Manipulação do DOM
 - Armazenamento e manipulação de dados no localstorage
 
-## GitHub pages: 
+## GitHub pages: https://cruz-andre.github.io/mochila-de-viagem/
